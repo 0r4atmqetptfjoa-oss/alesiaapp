@@ -10,9 +10,8 @@ class AudioManager {
   Soundpool? _pool;
   final Map<String, int> _cache = {}; // assetPath -> soundId
 
-  Soundpool get _ensurePool {
-    return _pool ??= Soundpool.fromOptions(options: const SoundpoolOptions(streamType: StreamType.music));
-  }
+  Soundpool get _ensurePool =>
+      _pool ??= Soundpool.fromOptions(options: const SoundpoolOptions(streamType: StreamType.music));
 
   /// Plays an asset WAV/OGG/MP3. Caches the decoded sound in memory for reuse.
   /// Example: await audioManager.play('assets/audio/instruments/C.wav');
@@ -24,7 +23,14 @@ class AudioManager {
       soundId = await pool.load(data);
       _cache[assetPath] = soundId;
     }
-    await pool.play(soundId, volume: volume);
+    final streamId = await pool.play(soundId);
+    if (volume != 1.0) {
+      try {
+        await pool.setVolume(streamId: streamId, volume: volume.clamp(0.0, 1.0));
+      } catch (_) {
+        // Older platforms may not support setVolume; ignore gracefully.
+      }
+    }
   }
 
   /// Frees all cached sounds.
@@ -32,7 +38,7 @@ class AudioManager {
     if (_pool == null) return;
     for (final id in _cache.values) {
       try {
-        await _pool!.release(id);
+        await _pool!.unload(id);
       } catch (_) {}
     }
     _cache.clear();

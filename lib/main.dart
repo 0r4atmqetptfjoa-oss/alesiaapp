@@ -63,7 +63,7 @@ class _MuzicaMagicaAppState extends State<MuzicaMagicaApp> with WidgetsBindingOb
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(),
       initialRoute: '/splash',
-      localizationsDelegates: const [
+      localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

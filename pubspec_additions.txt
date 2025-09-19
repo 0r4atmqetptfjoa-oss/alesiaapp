@@ -1,0 +1,11 @@
+# Add under dependencies:
+flutter_localizations:
+  sdk: flutter
+
+# Ensure you have (already present in most apps)
+flutter:
+  uses-material-design: true
+  # and your assets section includes images/audio you use
+
+# Then run:
+# flutter pub get
