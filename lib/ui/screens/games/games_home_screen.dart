@@ -40,6 +40,11 @@ class GamesHomeScreen extends StatelessWidget {
                     color: AppColors.purple,
                     onTap: () => Navigator.pushNamed(context, '/memory'),
                   ),
+                  _GameCard(
+                    title: 'Alfabet',
+                    color: AppColors.green,
+                    onTap: () => Navigator.pushNamed(context, '/alphabet'),
+                  ),
                 ],
               ),
             ),

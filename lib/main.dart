@@ -11,6 +11,8 @@ import 'ui/screens/games/memory_screen.dart';
 import 'ui/screens/games/games_home_screen.dart';
 import 'ui/screens/story_screen.dart';
 import 'ui/screens/parents_screen.dart';
+import 'ui/screens/games/alphabet_screen.dart';
+import 'services/ads_service.dart';
 
 /// Entry point of the Muzica Magica app. This sets up a basic
 /// MaterialApp with a custom theme and a simple named route
@@ -77,6 +79,7 @@ class _MuzicaMagicaAppState extends State<MuzicaMagicaApp> with WidgetsBindingOb
         '/stories': (_) => const StoryScreen(),
         '/parents': (_) => const ParentsScreen(),
         '/games': (_) => const GamesHomeScreen(),
+        '/alphabet': (_) => const AlphabetScreen(),
       },
     );
   }

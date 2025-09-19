@@ -71,6 +71,7 @@ ThemeData buildAppTheme() {
       surface: Colors.white,
       background: AppColors.bgSky,
     ),
-    splashFactory: InkSparkle.constantTurbulenceSeedSparkle,
+    // Use default splash behaviour. InkSparkle is not available on all platforms.
+    // splashFactory: InkSparkle.constantTurbulenceSeedSparkle,
   );
 }
