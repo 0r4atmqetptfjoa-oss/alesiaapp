@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'ui/theme.dart';
+import 'ui/screens/splash_screen.dart';
 import 'ui/screens/home_screen.dart';
 import 'ui/screens/xylophone_screen.dart';
 import 'ui/screens/drums_screen.dart';
@@ -17,20 +18,11 @@ import 'ui/screens/content_packs_screen.dart';
 import 'ui/screens/games/numbers_screen.dart';
 import 'services/ads_service.dart';
 
-/// Entry point of the Muzica Magica app. This sets up a basic
-/// MaterialApp with a custom theme and a simple named route
-/// configuration. When running on a device, the debug banner is
-/// removed. Each route points to a top‑level screen defined in
-/// `lib/ui/screens`.
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MuzicaMagicaApp());
 }
 
-/// The root widget for the application. It configures the theme
-/// and the routing table. Additional dependencies (state
-/// management, database, etc.) can be injected here when
-/// expanding the app beyond the UI prototype.
 class MuzicaMagicaApp extends StatefulWidget {
   const MuzicaMagicaApp({super.key});
 
@@ -43,7 +35,6 @@ class _MuzicaMagicaAppState extends State<MuzicaMagicaApp> with WidgetsBindingOb
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // Start the ad grace session on launch.
     adsService.startSession();
   }
 
@@ -69,9 +60,9 @@ class _MuzicaMagicaAppState extends State<MuzicaMagicaApp> with WidgetsBindingOb
       title: 'Muzica Magica',
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(),
-      // Named routes for navigation. Additional screens can be
-      // added here as the app expands.
+      initialRoute: '/splash',
       routes: {
+        '/splash': (_) => const SplashScreen(),
         '/': (_) => const HomeScreen(),
         '/xylophone': (_) => const XylophoneScreen(),
         '/drums': (_) => const DrumsScreen(),

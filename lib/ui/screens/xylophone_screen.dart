@@ -4,25 +4,22 @@ import '../theme.dart';
 import '../widgets/common_widgets.dart';
 import '../../services/audio_manager.dart';
 
-/// A screen displaying a colourful xylophone. Each bar can be
-/// tapped to animate and (in a later iteration) play a sound. The
-/// height of bars alternates slightly to mimic a real instrument.
 class XylophoneScreen extends StatelessWidget {
   const XylophoneScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Define the xylophone bars with their labels and colours.
-    final bars = [
-      _BarSpec('C', AppColors.red, 'C.wav'),
-      _BarSpec('D', AppColors.orange, 'D.wav'),
-      _BarSpec('E', AppColors.yellow, 'E.wav'),
-      _BarSpec('F', AppColors.green, 'F.wav'),
-      _BarSpec('G', AppColors.teal, 'G.wav'),
-      _BarSpec('A', AppColors.blue, 'A.wav'),
-      _BarSpec('B', AppColors.indigo, 'B.wav'),
-      _BarSpec('C', AppColors.purple, 'C2.wav'),
+    final List<_KeySpec> keys = [
+      _KeySpec('C', AppColors.red),
+      _KeySpec('D', AppColors.orange),
+      _KeySpec('E', AppColors.yellow),
+      _KeySpec('F', AppColors.green),
+      _KeySpec('G', AppColors.teal),
+      _KeySpec('A', AppColors.blue),
+      _KeySpec('B', AppColors.indigo),
+      _KeySpec('C2', AppColors.purple),
     ];
+
     return Scaffold(
       body: ForestBackground(
         child: Column(
@@ -31,35 +28,36 @@ class XylophoneScreen extends StatelessWidget {
               onHome: () => Navigator.popUntil(context, ModalRoute.withName('/')),
               onXylophone: () {},
               onDrums: () => Navigator.pushReplacementNamed(context, '/drums'),
-              onSounds: () => Navigator.pushNamed(context, '/sounds'),
+              onSounds: () => Navigator.pushReplacementNamed(context, '/sounds'),
               onParents: () => Navigator.pushNamed(context, '/parents'),
             ),
-            const SizedBox(height: 12),
-            // Star row is placeholder for future progress tracking.
-            const StarRow(filled: 3),
-            const SizedBox(height: 8),
             Expanded(
-              child: Center(
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final totalWidth = constraints.maxWidth - 40;
-                    final barWidth = (totalWidth / bars.length).clamp(64.0, 120.0);
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (var i = 0; i < bars.length; i++)
-                          _XyloBar(
-                            spec: bars[i],
-                            width: barWidth,
-                            height: 240 + (i % 2 == 0 ? 0 : 24),
-                          ),
-                      ],
-                    );
-                  },
-                ),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final isWide = constraints.maxWidth > 700;
+                  final barWidth = isWide ? 90.0 : constraints.maxWidth / 9;
+                  final barSpacing = 10.0;
+                  return Center(
+                    child: Wrap(
+                      spacing: barSpacing,
+                      crossAxisAlignment: WrapCrossAlignment.end,
+                      children: List.generate(keys.length, (i) {
+                        final spec = keys[i];
+                        // Stagger heights for a classic xylophone look
+                        final baseHeight = isWide ? 280.0 : 200.0;
+                        final height = baseHeight + (i * 10);
+                        return _XyloKey(
+                          note: spec.note,
+                          color: spec.color,
+                          width: barWidth,
+                          height: height,
+                        );
+                      }),
+                    ),
+                  );
+                },
               ),
             ),
-            const SizedBox(height: 24),
           ],
         ),
       ),
@@ -67,132 +65,69 @@ class XylophoneScreen extends StatelessWidget {
   }
 }
 
-/// Internal data holder for a xylophone bar: its label (note), colour and
-/// the corresponding audio file name. Using an explicit audio name
-/// allows the last C note to map to C2.wav.
-class _BarSpec {
-  final String label;
+class _KeySpec {
+  final String note;
   final Color color;
-  final String audioName;
-  _BarSpec(this.label, this.color, this.audioName);
+  _KeySpec(this.note, this.color);
 }
 
-/// Widget representing a single bar of the xylophone. On tap, the
-/// bar scales slightly to provide visual feedback. Audio playback
-/// would be triggered in a future integration with an audio player.
-class _XyloBar extends StatefulWidget {
-  const _XyloBar({required this.spec, required this.width, required this.height});
-  final _BarSpec spec;
+class _XyloKey extends StatefulWidget {
+  const _XyloKey({required this.note, required this.color, required this.width, required this.height});
+  final String note;
+  final Color color;
   final double width;
   final double height;
 
   @override
-  State<_XyloBar> createState() => _XyloBarState();
+  State<_XyloKey> createState() => _XyloKeyState();
 }
 
-class _XyloBarState extends State<_XyloBar>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
+class _XyloKeyState extends State<_XyloKey> with SingleTickerProviderStateMixin {
+  double _press = 0.0;
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 90),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Future<void> _handleTap() async {
-    // Animate the bar down and back up
-    await _controller.forward();
-    await _controller.reverse();
-    // Play the associated note using the global audio manager. We build
-    // the asset path using the audioName defined in the BarSpec. The
-    // audio files are located under assets/audio/instruments/.
-    final path = 'assets/audio/instruments/${widget.spec.audioName}';
-    await audioManager.play(path);
+  Future<void> _play() async {
+    setState(() => _press = 1.0);
+    await audioManager.play('assets/audio/instruments/${widget.note}.wav');
+    await Future.delayed(const Duration(milliseconds: 80));
+    if (mounted) setState(() => _press = 0.0);
   }
 
   @override
   Widget build(BuildContext context) {
-    final w = widget.width;
-    final h = widget.height;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: GestureDetector(
-        onTapDown: (_) => _controller.forward(),
-        onTapUp: (_) => _handleTap(),
-        onTapCancel: () => _controller.reverse(),
-        child: ScaleTransition(
-          scale: Tween(begin: 1.0, end: .96).animate(_controller),
-          child: Container(
-            width: w,
-            height: h,
-            decoration: BoxDecoration(
-              color: widget.spec.color,
-              borderRadius: BorderRadius.circular(Radii.lg),
-              boxShadow: const [
-                BoxShadow(blurRadius: 10, offset: Offset(0, 8), color: Colors.black26),
-              ],
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.white.withOpacity(.15),
-                  Colors.black.withOpacity(.08),
-                ],
+    final double elevation = 10 + 10 * (1 - _press);
+    final double scaleY = 1 - 0.02 * _press;
+    final double translateY = 4 * _press;
+
+    return GestureDetector(
+      onTap: _play,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 90),
+        transform: Matrix4.identity()
+          ..translate(0.0, translateY)
+          ..scale(1.0, scaleY),
+        width: widget.width,
+        height: widget.height,
+        decoration: BoxDecoration(
+          color: widget.color,
+          borderRadius: BorderRadius.circular(Radii.lg),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: elevation,
+              spreadRadius: 1,
+              color: Colors.black.withOpacity(.25),
+              offset: Offset(0, elevation / 2),
+            ),
+          ],
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          widget.note,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: AppColors.textDark,
+                fontWeight: FontWeight.w900,
               ),
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Positioned(
-                  top: 16,
-                  child: _rivet(),
-                ),
-                Positioned(
-                  bottom: 16,
-                  child: _rivet(),
-                ),
-                Text(
-                  widget.spec.label,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: Colors.white.withOpacity(.9),
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.2,
-                      ),
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );
   }
-
-  Widget _rivet() => Container(
-        width: 28,
-        height: 28,
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(.85),
-          shape: BoxShape.circle,
-          boxShadow: const [
-            BoxShadow(blurRadius: 6, color: Colors.black26),
-          ],
-        ),
-        child: Container(
-          margin: const EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(.06),
-            shape: BoxShape.circle,
-          ),
-        ),
-      );
 }

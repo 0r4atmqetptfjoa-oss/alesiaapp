@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 import '../widgets/common_widgets.dart';
+import '../widgets/cursor.dart';
 import '../../services/audio_manager.dart';
 
 class Song {
@@ -107,7 +108,6 @@ class _SongsScreenState extends State<SongsScreen> with SingleTickerProviderStat
   }
 
   double _progressFor(Song song) {
-    // Approximate progress using highlighted line
     if (!_isPlaying || _highlightIndex < 0) return 0;
     final total = song.lyrics.length;
     return ((_highlightIndex + 1) / total).clamp(0, 1);
@@ -162,6 +162,10 @@ class _SongsScreenState extends State<SongsScreen> with SingleTickerProviderStat
                   final song = _songs[index];
                   final isCurrent = index == _tabController.index;
                   final progress = _progressFor(song);
+                  final bool canPlay = !_isPlaying;
+                  final bool canPause = _isPlaying;
+                  final bool canStop = _isPlaying;
+
                   return Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -171,22 +175,31 @@ class _SongsScreenState extends State<SongsScreen> with SingleTickerProviderStat
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.play_arrow_rounded),
-                              label: const Text('Play'),
-                              onPressed: _isPlaying ? null : () => _playSong(song),
+                            CursorOnDisabled(
+                              enabled: canPlay,
+                              child: ElevatedButton.icon(
+                                icon: const Icon(Icons.play_arrow_rounded),
+                                label: const Text('Play'),
+                                onPressed: canPlay ? () => _playSong(song) : null,
+                              ),
                             ),
                             const SizedBox(width: 8),
-                            ElevatedButton.icon(
-                              icon: Icon(_paused ? Icons.play_circle_rounded : Icons.pause_rounded),
-                              label: Text(_paused ? 'Resume' : 'Pause'),
-                              onPressed: _isPlaying ? _pauseOrResume : null,
+                            CursorOnDisabled(
+                              enabled: canPause,
+                              child: ElevatedButton.icon(
+                                icon: Icon(_paused ? Icons.play_circle_rounded : Icons.pause_rounded),
+                                label: Text(_paused ? 'Resume' : 'Pause'),
+                                onPressed: canPause ? _pauseOrResume : null,
+                              ),
                             ),
                             const SizedBox(width: 8),
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.stop_rounded),
-                              label: const Text('Stop'),
-                              onPressed: _isPlaying ? _stop : null,
+                            CursorOnDisabled(
+                              enabled: canStop,
+                              child: ElevatedButton.icon(
+                                icon: const Icon(Icons.stop_rounded),
+                                label: const Text('Stop'),
+                                onPressed: canStop ? _stop : null,
+                              ),
                             ),
                             const SizedBox(width: 16),
                             // Tempo slider

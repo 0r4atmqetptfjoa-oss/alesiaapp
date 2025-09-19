@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
 
-/// A soft scenic background used across screens.
 class ForestBackground extends StatelessWidget {
   const ForestBackground({super.key, required this.child});
   final Widget child;
@@ -14,7 +13,6 @@ class ForestBackground extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          // Decorative hills
           Positioned(
             left: -60, bottom: -40, right: -60, height: 220,
             child: DecoratedBox(
@@ -33,16 +31,8 @@ class ForestBackground extends StatelessWidget {
               ),
             ),
           ),
-          // Foreground leaves
-          Positioned(
-            top: 30, left: 24,
-            child: _Leaf(color: AppColors.leaf1),
-          ),
-          Positioned(
-            top: 80, right: 24,
-            child: _Leaf(color: AppColors.leaf2),
-          ),
-          // Content
+          Positioned(top: 30, left: 24, child: _Leaf(color: AppColors.leaf1)),
+          Positioned(top: 80, right: 24, child: _Leaf(color: AppColors.leaf2)),
           SafeArea(child: child),
         ],
       ),
@@ -69,8 +59,6 @@ class _Leaf extends StatelessWidget {
   }
 }
 
-/// A compact top navigation bar with clear iconography.
-/// Shows tooltips and, on wide screens, short text labels under icons.
 class RibbonBar extends StatelessWidget {
   const RibbonBar({
     super.key,
@@ -184,14 +172,18 @@ class _NavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget iconWidget = Container(
-      width: 44, height: 44,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(999),
-        boxShadow: const [BoxShadow(blurRadius: 6, color: Colors.black12)],
+    final Widget iconWidget = AnimatedScale(
+      scale: 1.0,
+      duration: const Duration(milliseconds: 120),
+      child: Container(
+        width: 44, height: 44,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(999),
+          boxShadow: const [BoxShadow(blurRadius: 6, color: Colors.black12)],
+        ),
+        child: Icon(icon, color: AppColors.textDark),
       ),
-      child: Icon(icon, color: AppColors.textDark),
     );
 
     final content = showLabel
@@ -207,7 +199,9 @@ class _NavButton extends StatelessWidget {
 
     return Tooltip(
       message: tooltip,
-      waitDuration: const Duration(milliseconds: 400),
+      waitDuration: const Duration(milliseconds: 250),
+      showDuration: const Duration(seconds: 4),
+      verticalOffset: 10,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -220,7 +214,6 @@ class _NavButton extends StatelessWidget {
   }
 }
 
-/// Simple star row (kept for backwards compatibility in screens).
 class StarRow extends StatelessWidget {
   const StarRow({super.key, this.total = 3, this.filled = 0});
   final int total;
