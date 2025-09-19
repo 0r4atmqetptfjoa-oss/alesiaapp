@@ -2,28 +2,32 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 import '../widgets/common_widgets.dart';
+import '../widgets/animated_hover_scale.dart';
 import '../../services/audio_manager.dart';
 
-/// A simple grid of sound cards. Each card represents a sound
-/// item and will eventually trigger a playback when tapped.
+class SoundItem {
+  final String title;
+  final String imageAsset;
+  final String audioAsset; // reuse instrument notes for demo
+  const SoundItem(this.title, this.imageAsset, this.audioAsset);
+}
+
+final List<SoundItem> soundItems = [
+  SoundItem('Clopot', 'assets/images/sounds/note1.png', 'assets/audio/instruments/C.wav'),
+  SoundItem('Fluier', 'assets/images/sounds/note2.png', 'assets/audio/instruments/D.wav'),
+  SoundItem('Tamburină', 'assets/images/sounds/note3.png', 'assets/audio/instruments/E.wav'),
+  SoundItem('Trianglu', 'assets/images/sounds/note4.png', 'assets/audio/instruments/F.wav'),
+  SoundItem('Clape', 'assets/images/sounds/note5.png', 'assets/audio/instruments/G.wav'),
+  SoundItem('Chitară', 'assets/images/sounds/note6.png', 'assets/audio/instruments/A.wav'),
+  SoundItem('Vioară', 'assets/images/sounds/note7.png', 'assets/audio/instruments/B.wav'),
+  SoundItem('Xilofon', 'assets/images/sounds/note8.png', 'assets/audio/instruments/C2.wav'),
+];
+
 class SoundsScreen extends StatelessWidget {
   const SoundsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // For demonstration we generate eight placeholder items.
-    // Associate each sound card with an audio asset. We reuse instrument
-    // notes for this demo. Each index corresponds to a note file name.
-    final items = [
-      'C.wav',
-      'D.wav',
-      'E.wav',
-      'F.wav',
-      'G.wav',
-      'A.wav',
-      'B.wav',
-      'C2.wav',
-    ];
     return Scaffold(
       body: ForestBackground(
         child: Column(
@@ -49,15 +53,79 @@ class SoundsScreen extends StatelessWidget {
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 16 / 9,
+                    childAspectRatio: 16 / 10,
                     mainAxisSpacing: 14,
                     crossAxisSpacing: 14,
                   ),
-                  itemCount: items.length,
+                  itemCount: soundItems.length,
                   itemBuilder: (context, index) {
-                    return _SoundCard(
-                      index: index + 1,
-                      audioName: items[index],
+                    final item = soundItems[index];
+                    return AnimatedHoverScale(
+                      onTap: () async => await audioManager.play(item.audioAsset),
+                      child: Material(
+                        color: Colors.white,
+                        elevation: 6,
+                        borderRadius: BorderRadius.circular(Radii.lg),
+                        clipBehavior: Clip.antiAlias,
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: Image.asset(
+                                item.imageAsset,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stack) => Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        AppColors.bgHill.withOpacity(.5),
+                                        AppColors.bgGrass.withOpacity(.6),
+                                      ],
+                                    ),
+                                  ),
+                                  child: Icon(
+                                    Icons.graphic_eq_rounded,
+                                    size: 64,
+                                    color: AppColors.leaf2.withOpacity(.9),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 12,
+                              top: 12,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: AppColors.orange,
+                                  borderRadius: BorderRadius.circular(999),
+                                  boxShadow: const [BoxShadow(blurRadius: 6, color: Colors.black26)],
+                                ),
+                                child: Text(
+                                  '${index + 1}',
+                                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                color: Colors.white.withOpacity(.85),
+                                child: Text(
+                                  item.title,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                        fontWeight: FontWeight.w800,
+                                        color: AppColors.textDark,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -65,84 +133,6 @@ class SoundsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SoundCard extends StatelessWidget {
-  const _SoundCard({required this.index, required this.audioName});
-  final int index;
-  final String audioName;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white.withOpacity(.95),
-      borderRadius: BorderRadius.circular(Radii.lg),
-      elevation: 6,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(Radii.lg),
-        onTap: () async {
-          // Play the associated sound when the card is tapped.
-          final path = 'assets/audio/instruments/$audioName';
-          await audioManager.play(path);
-        },
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      AppColors.bgHill.withOpacity(.5),
-                      AppColors.bgGrass.withOpacity(.6),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(Radii.lg),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 12,
-              top: 12,
-              child: _Badge(text: index.toString()),
-            ),
-            Center(
-              child: Icon(
-                Icons.pets_rounded,
-                size: 64,
-                color: AppColors.leaf2.withOpacity(.8),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Badge extends StatelessWidget {
-  const _Badge({required this.text});
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppColors.orange,
-        borderRadius: BorderRadius.circular(999),
-        boxShadow: const [
-          BoxShadow(blurRadius: 6, color: Colors.black26),
-        ],
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w900,
         ),
       ),
     );
