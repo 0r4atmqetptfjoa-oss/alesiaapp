@@ -1,119 +1,114 @@
 import 'package:flutter/material.dart';
-
-import '../theme.dart';
+import '../../data/animals_repository.dart';
+import '../../models/animal.dart';
 import '../widgets/common_widgets.dart';
-import '../widgets/kid_card.dart';
-import '../widgets/adaptive.dart';
-import '../../services/audio_manager.dart';
-
-class Animal {
-  final String name;
-  final String imageAsset; // e.g. assets/images/animals/cow.png
-  final String audioAsset; // e.g. assets/audio/instruments/C.wav
-  final String category;
-  const Animal(this.name, this.imageAsset, this.audioAsset, this.category);
-}
-
-// Demo list with two categories.
-final List<Animal> animals = [
-  Animal('Vaca', 'assets/images/animals/cow.png', 'assets/audio/instruments/C.wav', 'Ferma'),
-  Animal('Oaie', 'assets/images/animals/sheep.png', 'assets/audio/instruments/D.wav', 'Ferma'),
-  Animal('Porc', 'assets/images/animals/pig.png', 'assets/audio/instruments/E.wav', 'Ferma'),
-  Animal('Leu', 'assets/images/animals/lion.png', 'assets/audio/instruments/F.wav', 'Sălbatic'),
-  Animal('Elefant', 'assets/images/animals/elephant.png', 'assets/audio/instruments/G.wav', 'Sălbatic'),
-  Animal('Maimuță', 'assets/images/animals/monkey.png', 'assets/audio/instruments/A.wav', 'Sălbatic'),
-];
 
 class AnimalsScreen extends StatefulWidget {
   const AnimalsScreen({super.key});
-
   @override
   State<AnimalsScreen> createState() => _AnimalsScreenState();
 }
 
-class _AnimalsScreenState extends State<AnimalsScreen> with SingleTickerProviderStateMixin {
-  late final TabController _tabController;
-  late final List<String> categories;
+class _AnimalsScreenState extends State<AnimalsScreen> {
+  List<AnimalItem> animals = [];
+  bool loading = true;
 
   @override
   void initState() {
     super.initState();
-    categories = animals.map((a) => a.category).toSet().toList();
-    _tabController = TabController(length: categories.length, vsync: this);
+    _load();
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+  Future<void> _load() async {
+    final list = await animalsRepo.loadAnimals();
+    setState(() { animals = list; loading = false; });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ForestBackground(
+    return ForestBackground(
+      child: Column(
+        children: [
+          RibbonBar(
+            onHome: () => Navigator.pushReplacementNamed(context, '/'),
+            onXylophone: () => Navigator.pushReplacementNamed(context, '/xylophone'),
+            onDrums: () => Navigator.pushReplacementNamed(context, '/drums'),
+            onSounds: () => Navigator.pushReplacementNamed(context, '/sounds'),
+            onParents: () => Navigator.pushReplacementNamed(context, '/parents'),
+          ),
+          Expanded(child: loading ? const Center(child: CircularProgressIndicator()) : _body()),
+        ],
+      ),
+    );
+  }
+
+  Widget _body() {
+    if (animals.isEmpty) {
+      return const Center(child: Text('Nu am găsit assets/content/animals.json — folosesc fallback.'));
+    }
+    final byCat = <String, List<AnimalItem>>{};
+    for (final a in animals) {
+      byCat.putIfAbsent(a.category, () => []).add(a);
+    }
+    final cats = byCat.keys.toList()..sort();
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [ for (final c in cats) _section(c, byCat[c]!) ],
+    );
+  }
+
+  Widget _section(String title, List<AnimalItem> list) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RibbonBar(
-              onHome: () => Navigator.popUntil(context, ModalRoute.withName('/')),
-              onXylophone: () => Navigator.pushReplacementNamed(context, '/xylophone'),
-              onDrums: () => Navigator.pushReplacementNamed(context, '/drums'),
-              onSounds: () => Navigator.pushReplacementNamed(context, '/sounds'),
-              onParents: () => Navigator.pushNamed(context, '/parents'),
-            ),
+            Row(children: [const Icon(Icons.pets_rounded), const SizedBox(width: 8), Text(title, style: Theme.of(context).textTheme.titleMedium)]),
             const SizedBox(height: 8),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.85),
-                borderRadius: BorderRadius.circular(Radii.xl),
-              ),
-              child: TabBar(
-                controller: _tabController,
-                labelColor: AppColors.textDark,
-                indicator: BoxDecoration(
-                  color: AppColors.leaf1.withOpacity(.35),
-                  borderRadius: BorderRadius.circular(Radii.xl),
-                ),
-                tabs: [for (var c in categories) Tab(text: c)],
-              ),
-            ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  for (var c in categories) _buildCategory(c),
-                ],
-              ),
-            ),
+            LayoutBuilder(
+              builder: (context, c) {
+                final w = c.maxWidth;
+                int columns = 2;
+                if (w > 1200) columns = 5;
+                else if (w > 900) columns = 4;
+                else if (w > 600) columns = 3;
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: columns, childAspectRatio: 1, crossAxisSpacing: 12, mainAxisSpacing: 12),
+                  itemCount: list.length,
+                  itemBuilder: (_, i) => _tile(list[i]),
+                );
+              },
+            )
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCategory(String category) {
-    final items = animals.where((a) => a.category == category).toList();
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: GridView.builder(
-        itemCount: items.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: adaptiveCrossAxisCount(context, minTileWidth: 260),
-          crossAxisSpacing: 14,
-          mainAxisSpacing: 14,
-          childAspectRatio: 4 / 3,
+  Widget _tile(AnimalItem a) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(a.image, fit: BoxFit.contain),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text(a.name, style: const TextStyle(fontWeight: FontWeight.w700)),
+            ),
+          ],
         ),
-        itemBuilder: (context, index) {
-          final animal = items[index];
-          return KidCard(
-            title: animal.name,
-            imageAsset: animal.imageAsset,
-            badgeText: '#${index + 1}',
-            onTap: () async => await audioManager.play(animal.audioAsset),
-          );
-        },
       ),
     );
   }

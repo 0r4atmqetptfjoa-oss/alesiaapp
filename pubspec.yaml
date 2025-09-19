@@ -50,3 +50,10 @@ flutter:
     - assets/audio/instruments/
     - assets/images/
     - assets/packs/
+    - assets/content/songs.json
+    - assets/content/stories.json
+    - assets/content/games.json
+    - assets/content/animals.json
+    - assets/images/animals/farm/
+    - assets/images/animals/wild/
+    - assets/images/animals/marine/

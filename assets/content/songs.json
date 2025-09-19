@@ -1,0 +1,164 @@
+{
+  "songs": [
+    {
+      "id": "frere_jacques_ro",
+      "title": "Fratele Martin (după \"Frère Jacques\")",
+      "language": "ro",
+      "melody_public_domain": true,
+      "source": "Traditional (Frère Jacques)",
+      "lyrics": [
+        "Fratele Martin, dormi tu? Dormi tu?",
+        "Sună clopoțeii, sună clopoțeii, din-don-don, din-don-don."
+      ],
+      "notes": [
+        "C4",
+        "D4",
+        "E4",
+        "C4",
+        "C4",
+        "D4",
+        "E4",
+        "C4",
+        "E4",
+        "F4",
+        "G4",
+        "-",
+        "E4",
+        "F4",
+        "G4",
+        "-",
+        "G4",
+        "A4",
+        "G4",
+        "F4",
+        "E4",
+        "C4",
+        "G4",
+        "A4",
+        "G4",
+        "F4",
+        "E4",
+        "C4",
+        "C4",
+        "G3",
+        "C4",
+        "-"
+      ]
+    },
+    {
+      "id": "twinkle_ro",
+      "title": "Stea, stea, mic luminis (după \"Twinkle, Twinkle, Little Star\")",
+      "language": "ro",
+      "melody_public_domain": true,
+      "source": "Jane Taylor (1806) / Ah! vous dirai-je, maman (1761)",
+      "lyrics": [
+        "Stea, stea, mic luminiș, mă întreb ce ești tu niș’!",
+        "Sus pe cer, atât de sus, ca un diamant de sus."
+      ],
+      "notes": [
+        "C4",
+        "C4",
+        "G4",
+        "G4",
+        "A4",
+        "A4",
+        "G4",
+        "-",
+        "F4",
+        "F4",
+        "E4",
+        "E4",
+        "D4",
+        "D4",
+        "C4",
+        "-"
+      ]
+    },
+    {
+      "id": "old_macdonald_en",
+      "title": "Old MacDonald Had a Farm",
+      "language": "en",
+      "melody_public_domain": true,
+      "source": "Traditional / d'Urfey (1706, variants)",
+      "lyrics": [
+        "Old MacDonald had a farm, E-I-E-I-O.",
+        "And on that farm he had a cow, E-I-E-I-O.",
+        "With a moo-moo here and a moo-moo there..."
+      ],
+      "notes": [
+        "G4",
+        "G4",
+        "G4",
+        "D4",
+        "E4",
+        "E4",
+        "D2",
+        "B4",
+        "B4",
+        "A4",
+        "A4",
+        "G2",
+        "D4",
+        "G4",
+        "G4",
+        "G4",
+        "D4",
+        "E4",
+        "E4",
+        "D2"
+      ]
+    },
+    {
+      "id": "baa_baa_en",
+      "title": "Baa, Baa, Black Sheep",
+      "language": "en",
+      "melody_public_domain": true,
+      "source": "Traditional (18th c.)",
+      "lyrics": [
+        "Baa, baa, black sheep, have you any wool?",
+        "Yes sir, yes sir, three bags full."
+      ],
+      "notes": [
+        "G4",
+        "G4",
+        "D4",
+        "E4",
+        "F4",
+        "F4",
+        "E2",
+        "G4",
+        "G4",
+        "D4",
+        "E4",
+        "F4",
+        "F4",
+        "E2"
+      ]
+    },
+    {
+      "id": "counting_ro_original",
+      "title": "Numărăm ușurel (original)",
+      "language": "ro",
+      "melody_public_domain": true,
+      "source": "Original lyrics on PD tune",
+      "lyrics": [
+        "Unu, doi, trei, vin norii pe-alei,",
+        "Patru, cinci, șase, soarele dă pase."
+      ],
+      "notes": [
+        "C4",
+        "D4",
+        "E4",
+        "F4",
+        "G4",
+        "-",
+        "G4",
+        "F4",
+        "E4",
+        "D4",
+        "C4",
+        "-"
+      ]
+    }
+  ]
+}

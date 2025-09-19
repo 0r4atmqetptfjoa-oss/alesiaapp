@@ -1,0 +1,122 @@
+{
+  "memory_levels": [
+    {
+      "id": "mem_2x2_animals",
+      "name": "Animale 2x2",
+      "rows": 2,
+      "cols": 2,
+      "icons": [
+        "🐶",
+        "🐱",
+        "🐭",
+        "🐰"
+      ]
+    },
+    {
+      "id": "mem_3x2_shapes",
+      "name": "Forme 3x2",
+      "rows": 3,
+      "cols": 2,
+      "icons": [
+        "⭐",
+        "⚽",
+        "🍎",
+        "🎈",
+        "🚗",
+        "🌸"
+      ]
+    },
+    {
+      "id": "mem_4x3_instruments",
+      "name": "Instrumente 4x3",
+      "rows": 4,
+      "cols": 3,
+      "icons": [
+        "🥁",
+        "🎹",
+        "🎸",
+        "🎺",
+        "🎻",
+        "🪘"
+      ]
+    }
+  ],
+  "alphabet_levels": [
+    {
+      "id": "abc_A_F",
+      "letters": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "targets": 3
+    },
+    {
+      "id": "abc_G_L",
+      "letters": [
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "targets": 3
+    },
+    {
+      "id": "abc_M_R",
+      "letters": [
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R"
+      ],
+      "targets": 3
+    },
+    {
+      "id": "abc_S_Z",
+      "letters": [
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z"
+      ],
+      "targets": 4
+    }
+  ],
+  "numbers_levels": [
+    {
+      "id": "num_1_5",
+      "range": [
+        1,
+        5
+      ],
+      "goal": "count"
+    },
+    {
+      "id": "num_1_10",
+      "range": [
+        1,
+        10
+      ],
+      "goal": "count"
+    },
+    {
+      "id": "num_even_10",
+      "range": [
+        2,
+        10
+      ],
+      "goal": "even_only"
+    }
+  ]
+}

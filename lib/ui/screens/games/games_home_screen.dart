@@ -1,69 +1,85 @@
 import 'package:flutter/material.dart';
-
-import '../../theme.dart';
+import '../../../data/content_repository.dart';
+import '../../../models/game_levels.dart';
 import '../../widgets/common_widgets.dart';
-import '../../widgets/kid_card.dart';
-import '../../widgets/adaptive.dart';
 
-class GamesHomeScreen extends StatelessWidget {
+class GamesHomeScreen extends StatefulWidget {
   const GamesHomeScreen({super.key});
+  @override
+  State<GamesHomeScreen> createState() => _GamesHomeScreenState();
+}
+
+class _GamesHomeScreenState extends State<GamesHomeScreen> {
+  List<MemoryLevel> mem = [];
+  List<AlphabetLevel> abc = [];
+  List<NumbersLevel> num = [];
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final raw = await contentRepo.loadGamesRaw();
+    setState(() {
+      mem = (raw['memory_levels'] as List? ?? []).map((e)=> MemoryLevel.fromJson(e)).toList();
+      abc = (raw['alphabet_levels'] as List? ?? []).map((e)=> AlphabetLevel.fromJson(e)).toList();
+      num = (raw['numbers_levels'] as List? ?? []).map((e)=> NumbersLevel.fromJson(e)).toList();
+      loading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final items = <_GameItem>[
-      _GameItem('Puzzle', 'assets/images/games/puzzle.png', '/puzzle'),
-      _GameItem('Memorie', 'assets/images/games/memory.png', '/memory'),
-      _GameItem('Alfabet', 'assets/images/games/alphabet.png', '/alphabet'),
-      _GameItem('Numere', 'assets/images/games/numbers.png', '/numbers'),
-    ];
+    return ForestBackground(
+      child: Column(
+        children: [
+          RibbonBar(
+            onHome: () => Navigator.pushReplacementNamed(context, '/'),
+            onXylophone: () => Navigator.pushReplacementNamed(context, '/xylophone'),
+            onDrums: () => Navigator.pushReplacementNamed(context, '/drums'),
+            onSounds: () => Navigator.pushReplacementNamed(context, '/sounds'),
+            onParents: () => Navigator.pushReplacementNamed(context, '/parents'),
+          ),
+          Expanded(child: loading ? const Center(child: CircularProgressIndicator()) : _body()),
+        ],
+      ),
+    );
+  }
 
-    return Scaffold(
-      body: ForestBackground(
+  Widget _body() {
+    if (mem.isEmpty && abc.isEmpty && num.isEmpty) {
+      return const Center(child: Text('Nu am găsit assets/content/games.json — folosesc grila existentă.'));
+    }
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        if (mem.isNotEmpty) _section('Memorie', mem.map((e)=> e.name).toList(), Icons.grid_view_rounded),
+        if (abc.isNotEmpty) _section('Alfabet', abc.map((e)=> e.id.replaceAll('_',' ').toUpperCase()).toList(), Icons.abc_rounded),
+        if (num.isNotEmpty) _section('Numere', num.map((e)=> '${e.id} (${e.goal})').toList(), Icons.onetwothree_rounded),
+      ],
+    );
+  }
+
+  Widget _section(String title, List<String> items, IconData icon) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RibbonBar(
-              onHome: () => Navigator.popUntil(context, ModalRoute.withName('/')),
-              onXylophone: () => Navigator.pushReplacementNamed(context, '/xylophone'),
-              onDrums: () => Navigator.pushReplacementNamed(context, '/drums'),
-              onSounds: () => Navigator.pushReplacementNamed(context, '/sounds'),
-              onParents: () => Navigator.pushNamed(context, '/parents'),
-            ),
-            const SizedBox(height: 12),
-            Text('Jocuri', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900)),
-            const SizedBox(height: 12),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: adaptiveCrossAxisCount(context, minTileWidth: 260),
-                    childAspectRatio: 4/3,
-                    mainAxisSpacing: 14,
-                    crossAxisSpacing: 14,
-                  ),
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    final it = items[index];
-                    return KidCard(
-                      title: it.title,
-                      imageAsset: it.image,
-                      onTap: () => Navigator.pushNamed(context, it.route),
-                    );
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
+            Row(children: [Icon(icon), const SizedBox(width: 8), Text(title, style: Theme.of(context).textTheme.titleMedium)]),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8, runSpacing: 8,
+              children: items.map((t)=> Chip(label: Text(t))).toList(),
+            )
           ],
         ),
       ),
     );
   }
-}
-
-class _GameItem {
-  final String title;
-  final String image;
-  final String route;
-  _GameItem(this.title, this.image, this.route);
 }
