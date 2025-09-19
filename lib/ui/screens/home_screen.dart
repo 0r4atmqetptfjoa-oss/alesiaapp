@@ -11,34 +11,33 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             RibbonBar(
-              onHome: () => Navigator.pushReplacementNamed(context, '/'),
-              onAnimals: () => Navigator.pushReplacementNamed(context, '/animals'),
-              onGames: () => Navigator.pushReplacementNamed(context, '/games'),
-              onSongs: () => Navigator.pushReplacementNamed(context, '/songs'),
-              onStories: () => Navigator.pushReplacementNamed(context, '/stories'),
+              onHome: () {},
+              onAnimals: () => Navigator.pushNamed(context, '/animals'),
+              onSongs: () => Navigator.pushNamed(context, '/songs'),
+              onGames: () => Navigator.pushNamed(context, '/games'),
+              onStories: () => Navigator.pushNamed(context, '/stories'),
+              onParents: () => Navigator.pushNamed(context, '/parents'),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
             Expanded(
-              child: Center(
-                child: Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: [
-                    _HomeCard(
-                      icon: Icons.pets_rounded, label: 'Animale',
-                      onTap: () => Navigator.pushReplacementNamed(context, '/animals')),
-                    _HomeCard(
-                      icon: Icons.extension_rounded, label: 'Jocuri',
-                      onTap: () => Navigator.pushReplacementNamed(context, '/games')),
-                    _HomeCard(
-                      icon: Icons.library_music_rounded, label: 'Cântece',
-                      onTap: () => Navigator.pushReplacementNamed(context, '/songs')),
-                    _HomeCard(
-                      icon: Icons.menu_book_rounded, label: 'Povești',
-                      onTap: () => Navigator.pushReplacementNamed(context, '/stories')),
-                  ],
-                ),
-              ),
+              child: LayoutBuilder(builder: (context, c) {
+                final w = c.maxWidth;
+                final cross = w > 1200 ? 6 : w > 900 ? 4 : w > 600 ? 3 : 2;
+                final items = const [
+                  _HomeItem('Instrumente', Icons.piano_rounded, '/xylophone'),
+                  _HomeItem('Cântece', Icons.library_music_rounded, '/songs'),
+                  _HomeItem('Sunete & Animale', Icons.pets_rounded, '/animals'),
+                  _HomeItem('Jocuri', Icons.extension_rounded, '/games'),
+                  _HomeItem('Povești', Icons.menu_book_rounded, '/stories'),
+                ];
+                return GridView.builder(
+                  padding: const EdgeInsets.all(16),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: cross, crossAxisSpacing: 16, mainAxisSpacing: 16, childAspectRatio: 1.05),
+                  itemCount: items.length,
+                  itemBuilder: (context, i) => _HomeCard(item: items[i]),
+                );
+              }),
             ),
           ],
         ),
@@ -47,35 +46,32 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _HomeCard extends StatelessWidget {
+class _HomeItem {
+  final String title;
   final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-  const _HomeCard({required this.icon, required this.label, required this.onTap});
+  final String route;
+  const _HomeItem(this.title, this.icon, this.route);
+}
+
+class _HomeCard extends StatelessWidget {
+  final _HomeItem item;
+  const _HomeCard({required this.item});
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: Colors.white.withOpacity(0.15),
+      borderRadius: BorderRadius.circular(16),
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          width: 180, height: 140,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white.withOpacity(0.25)),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 48, color: Colors.white),
-              const SizedBox(height: 12),
-              Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
-            ],
-          ),
+        onTap: () => Navigator.pushNamed(context, item.route),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(item.icon, size: 48, color: Colors.white),
+            const SizedBox(height: 10),
+            Text(item.title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
+          ],
         ),
       ),
     );

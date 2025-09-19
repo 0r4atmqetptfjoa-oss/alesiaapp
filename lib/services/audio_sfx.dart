@@ -7,16 +7,16 @@ class AudioSfx {
     ..setPlayerMode(PlayerMode.lowLatency);
 
   Future<void> playAssetPath(String? path) async {
-    if (path == null) return;
+    if (path == null || path.isEmpty) return;
     try {
       if (kIsWeb) {
-        await _player.play(UrlSource(path)); // 'assets/...'
+        await _player.play(UrlSource(path)); // pe web, folosim UrlSource('assets/...')
       } else {
         final p = path.startsWith('assets/') ? path.substring(7) : path;
         await _player.play(AssetSource(p));
       }
-    } catch (e) {
-      // ignore errors in UI
+    } catch (_) {
+      // soft-fail în UI
     }
   }
 }

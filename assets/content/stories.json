@@ -1,65 +1,10 @@
-{
-  "stories": [
-    {
-      "id": "punguta_cu_doi_bani",
-      "title": "Punguța cu doi bani (retelling)",
-      "source": "Ion Creangă – public domain",
-      "language": "ro",
-      "paragraphs": [
-        "Un moș avea un cocoș, iar baba avea o găină. Găina făcea ouă, dar babei nu-i plăcea să împartă. Supărat, moșul își bate cocoșul, iar bietul cocoș pleacă în lume.",
-        "Pe drum găsește o punguță cu doi bani. Un boier i-o ia și poruncește slugilor să scape de cocoș. Dar cocoșul este isteț: bea apa din fântână, stinge focul din cuptor și nu se dă bătut.",
-        "În cele din urmă, boierul se sperie și îi dă cocoșului punguța înapoi. Cocoșul se întoarce acasă și, cu doi bănuți, moșul cumpără ce-i trebuie în gospodărie. Morala: hărnicia și istețimea biruiesc zgârcenia."
-      ]
-    },
-    {
-      "id": "capra_cu_trei_iezi",
-      "title": "Capra cu trei iezi (retelling)",
-      "source": "Ion Creangă – public domain",
-      "language": "ro",
-      "paragraphs": [
-        "O capră cu trei iezi pleacă după hrană și îi avertizează să nu deschidă ușa străinilor. Un lup viclean îi păcălește pe cei mici, dar mezinul rămâne ascuns.",
-        "Capra află ce s-a întâmplat și pregătește o lecție lupului. Îl face să adoarmă și îl pedepsește pentru răul făcut. Povestea amintește copiilor cât de important e să urmezi sfatul mamei și să nu deschizi ușa necunoscuților."
-      ]
-    },
-    {
-      "id": "fata_babei_fata_mosneagului",
-      "title": "Fata babei și fata moșneagului (retelling)",
-      "source": "Ion Creangă – public domain",
-      "language": "ro",
-      "paragraphs": [
-        "Fata moșneagului este harnică și primitoare; fata babei este leneșă și rea. În cale, cea harnică ajută animalele și oamenii, iar la final este răsplătită.",
-        "Cea leneșă refuză pe toată lumea și ajunge pedepsită. Morala: bunătatea și munca aduc bucurie."
-      ]
-    },
-    {
-      "id": "ursul_pacalit_de_vulpe",
-      "title": "Ursul păcălit de vulpe (retelling)",
-      "source": "Ion Creangă – public domain",
-      "language": "ro",
-      "paragraphs": [
-        "Vulpea îl păcălește pe urs să-și bage coada în copcă pentru pește. Coada îngheață și ursul rămâne fără ea.",
-        "Poveste scurtă și hazlie despre cum nu trebuie să crezi toate sfaturile celor șireți."
-      ]
-    },
-    {
-      "id": "scufita_rosie",
-      "title": "Scufița Roșie (retelling)",
-      "source": "Frații Grimm – public domain",
-      "language": "ro",
-      "paragraphs": [
-        "O fetiță merge la bunica ei cu un coș. Un lup viclean o ispitește, ajunge înaintea ei și o înghite pe bunică. Apoi o păcălește și pe fetiță.",
-        "Un vânător trece pe acolo, deschide burta lupului și le salvează. Versiune scurtă și blândă pentru copii mici, accent pe prudență și drum sigur."
-      ]
-    },
-    {
-      "id": "alba_ca_zapada",
-      "title": "Albă-ca-Zăpada (retelling)",
-      "source": "Frații Grimm – public domain",
-      "language": "ro",
-      "paragraphs": [
-        "O prințesă fuge de gelozia mamei vitrege și este găzduită de șapte pitici. Regina o ademenește cu un măr otrăvit.",
-        "Prințesa este salvată, iar regina își primește pedeapsa. Final fericit și învățăminte despre gelozie și prietenie."
-      ]
-    }
-  ]
-}
+[
+  {
+    "title": "Scufița Roșie",
+    "body": "A fost odată ca niciodată..."
+  },
+  {
+    "title": "Alba ca Zăpada",
+    "body": "Într-un regat îndepărtat..."
+  }
+]

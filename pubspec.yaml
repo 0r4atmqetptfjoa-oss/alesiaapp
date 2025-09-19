@@ -1,5 +1,5 @@
 name: muzica_magica
-description: "Aplicatie educativa - UI imbunatatit + audio pe Animale"
+description: "Patch complet: rute, UI inspirat din designul tau, audio (web), localizari, JSON content"
 publish_to: "none"
 
 environment:
@@ -14,27 +14,20 @@ dependencies:
     sdk: flutter
   intl: ^0.20.2
 
-  # UI/utilitare
-  cupertino_icons: ^1.0.8
-  google_fonts: ^6.2.1
-  provider: ^6.1.2
-  shared_preferences: ^2.3.2
-
-  # Audio (web-friendly)
+  # Audio cross-platform (web OK)
   audioplayers: ^6.0.0
-  # just_audio: ^0.9.36   # optional, numai daca il mai folosesti in alte ecrane
-  # soundpool: ^2.4.1     # NU recomand (discontinued) – mutat pe audioplayers
+
+  # Opt-in fonts (poți scoate dacă nu le folosești)
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  # build_runner si altele adauga-le doar daca folosesti codegen
-  # build_runner: ^2.8.0
 
 flutter:
   uses-material-design: true
   assets:
-    # Declarare larga ca sa acopere toate fisierele tale (evitam dubluri gen assets/assets/...)
     - assets/content/
     - assets/images/
     - assets/audio/
+    - assets/ui/

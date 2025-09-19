@@ -20,12 +20,12 @@ class ForestBackground extends StatelessWidget {
 }
 
 class RibbonBar extends StatelessWidget {
-  final VoidCallback? onHome, onXylophone, onDrums, onSounds, onParents;
-  const RibbonBar({super.key, this.onHome, this.onXylophone, this.onDrums, this.onSounds, this.onParents});
+  final VoidCallback? onHome, onAnimals, onSongs, onGames, onStories, onParents;
+  const RibbonBar({super.key, this.onHome, this.onAnimals, this.onSongs, this.onGames, this.onStories, this.onParents});
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return Material( // ✅ Material ancestor pentru toate InkWell din bară
       color: Colors.transparent,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -33,11 +33,13 @@ class RibbonBar extends StatelessWidget {
           children: [
             _NavButton(icon: Icons.home_rounded, tooltip: 'Acasă', onTap: onHome),
             const SizedBox(width: 8),
-            _NavButton(icon: Icons.piano_rounded, tooltip: 'Xilofon', onTap: onXylophone),
+            _NavButton(icon: Icons.pets_rounded, tooltip: 'Animale', onTap: onAnimals),
             const SizedBox(width: 8),
-            _NavButton(icon: Icons.music_note_rounded, tooltip: 'Tobe', onTap: onDrums),
+            _NavButton(icon: Icons.library_music_rounded, tooltip: 'Cântece', onTap: onSongs),
             const SizedBox(width: 8),
-            _NavButton(icon: Icons.volume_up_rounded, tooltip: 'Sunete', onTap: onSounds),
+            _NavButton(icon: Icons.extension_rounded, tooltip: 'Jocuri', onTap: onGames),
+            const SizedBox(width: 8),
+            _NavButton(icon: Icons.menu_book_rounded, tooltip: 'Povești', onTap: onStories),
             const Spacer(),
             _NavButton(icon: Icons.lock_outline, tooltip: 'Părinți', onTap: onParents),
           ],

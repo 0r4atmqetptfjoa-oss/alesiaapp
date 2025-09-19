@@ -28,10 +28,11 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
           child: Column(
             children: [
               RibbonBar(
-                onHome: () => Navigator.pushReplacementNamed(context, '/'),
-                onXylophone: () => Navigator.pushReplacementNamed(context, '/xylophone'),
-                onDrums: () => Navigator.pushReplacementNamed(context, '/drums'),
-                onSounds: () => Navigator.pushReplacementNamed(context, '/sounds'),
+                onHome: () => Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false),
+                onAnimals: () {},
+                onSongs: () => Navigator.pushReplacementNamed(context, '/songs'),
+                onGames: () => Navigator.pushReplacementNamed(context, '/games'),
+                onStories: () => Navigator.pushReplacementNamed(context, '/stories'),
                 onParents: () => Navigator.pushReplacementNamed(context, '/parents'),
               ),
               const SizedBox(height: 4),
@@ -50,9 +51,13 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
                       return const Center(child: CircularProgressIndicator());
                     }
                     final list = snap.data ?? [];
-                    final wild   = list.where((e) => e.category.toLowerCase().contains('sălb') || e.category.toLowerCase().contains('salb')).toList();
-                    final farm   = list.where((e) => e.category.toLowerCase().contains('ferm')).toList();
-                    final marine = list.where((e) => e.category.toLowerCase().contains('marin')).toList();
+                    List<AnimalItem> wild   = list.where((e) => e.category.toLowerCase().contains('sălb') || e.category.toLowerCase().contains('salb')).toList();
+                    List<AnimalItem> farm   = list.where((e) => e.category.toLowerCase().contains('ferm')).toList();
+                    List<AnimalItem> marine = list.where((e) => e.category.toLowerCase().contains('marin') || e.category.toLowerCase().contains('ocean')).toList();
+                    if (wild.isEmpty && farm.isEmpty && marine.isEmpty) {
+                      // fallback: distribuim pe categorii după nume
+                      wild = list;
+                    }
                     return TabBarView(
                       children: [
                         _AnimalsGrid(items: wild),
@@ -113,15 +118,15 @@ class _AnimalTileState extends State<_AnimalTile> {
   @override
   Widget build(BuildContext context) {
     final name = widget.item.name;
-    return Listener(
-      onPointerHover: (ev) {
+    return MouseRegion(
+      onHover: (ev) {
         const size = 120.0;
         setState(() {
           _tiltX = ((ev.localPosition.dy - size/2) / size) * -4;
           _tiltY = ((ev.localPosition.dx - size/2) / size) * 4;
         });
       },
-      onPointerExit: (_) => setState(() { _tiltX = 0; _tiltY = 0; }),
+      onExit: (_) => setState(() { _tiltX = 0; _tiltY = 0; }),
       child: AnimatedScale(
         scale: _pressed ? 0.94 : 1.0,
         duration: const Duration(milliseconds: 100),
@@ -146,7 +151,11 @@ class _AnimalTileState extends State<_AnimalTile> {
                         ..rotateY(_tiltY * math.pi / 180),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
-                        child: Image.asset(widget.item.image, fit: BoxFit.contain, height: 90),
+                        child: Image.asset(
+                          widget.item.image,
+                          height: 90, fit: BoxFit.contain,
+                          errorBuilder: (_, __, ___) => const Icon(Icons.image_not_supported_rounded, size: 64, color: Colors.white70),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 6),
