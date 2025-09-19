@@ -1,151 +1,76 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
 
-/// Draws the layered hills and leaves that form the decorative
-/// background. This widget uses CustomPainter for performance
-/// and control. Any child provided will be stacked above the
-/// decorations.
+/// A soft scenic background used across screens.
 class ForestBackground extends StatelessWidget {
-  const ForestBackground({super.key, this.child});
-
-  final Widget? child;
+  const ForestBackground({super.key, required this.child});
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [AppColors.bgSky, AppColors.bgHill, AppColors.bgGrass],
-        ),
+        gradient: AppColors.bgGradient,
       ),
       child: Stack(
         children: [
-          const _Hills(),
-          const _Leaves(),
-          if (child != null) child!,
+          // Decorative hills
+          Positioned(
+            left: -60, bottom: -40, right: -60, height: 220,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: AppColors.bgHill,
+                borderRadius: BorderRadius.circular(160),
+              ),
+            ),
+          ),
+          Positioned(
+            left: -40, bottom: -60, right: -40, height: 160,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: AppColors.bgGrass,
+                borderRadius: BorderRadius.circular(140),
+              ),
+            ),
+          ),
+          // Foreground leaves
+          Positioned(
+            top: 30, left: 24,
+            child: _Leaf(color: AppColors.leaf1),
+          ),
+          Positioned(
+            top: 80, right: 24,
+            child: _Leaf(color: AppColors.leaf2),
+          ),
+          // Content
+          SafeArea(child: child),
         ],
       ),
     );
   }
 }
 
-/// Paints two softly curved hills on the canvas to create depth.
-class _Hills extends StatelessWidget {
-  const _Hills();
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _HillPainter(),
-      size: Size.infinite,
-    );
-  }
-}
-
-class _HillPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint1 = Paint()..color = AppColors.bgHill.withOpacity(.5);
-    final paint2 = Paint()..color = AppColors.bgGrass.withOpacity(.55);
-
-    // First hill.
-    final hill1 = Path()
-      ..moveTo(0, size.height * .65)
-      ..quadraticBezierTo(size.width * .3, size.height * .55,
-          size.width * .6, size.height * .68)
-      ..quadraticBezierTo(size.width * .85, size.height * .78,
-          size.width, size.height * .72)
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height)
-      ..close();
-    canvas.drawPath(hill1, paint1);
-
-    // Second hill.
-    final hill2 = Path()
-      ..moveTo(0, size.height * .75)
-      ..quadraticBezierTo(size.width * .25, size.height * .70,
-          size.width * .5, size.height * .78)
-      ..quadraticBezierTo(size.width * .8, size.height * .86,
-          size.width, size.height * .82)
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height)
-      ..close();
-    canvas.drawPath(hill2, paint2);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-/// Scatter leaves across the top of the screen as decorative accents.
-class _Leaves extends StatelessWidget {
-  const _Leaves();
-
-  @override
-  Widget build(BuildContext context) {
-    // Generate leaves with slight variations in position and scale.
-    final leaves = List<Widget>.generate(8, (i) {
-      final color = i.isEven ? AppColors.leaf1 : AppColors.leaf2;
-      final dx = 40.0 + i * 40.0;
-      final dy = 40.0 + (i % 3) * 18.0;
-      final scale = .8 + (i % 3) * .15;
-      return _Leaf(color: color, dx: dx, dy: dy, scale: scale);
-    });
-    return IgnorePointer(child: Stack(children: leaves));
-  }
-}
-
 class _Leaf extends StatelessWidget {
-  const _Leaf({required this.color, required this.dx, required this.dy, required this.scale});
+  const _Leaf({required this.color});
   final Color color;
-  final double dx, dy, scale;
-
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      left: dx,
-      top: dy,
-      child: Transform.scale(
-        scale: scale,
-        child: CustomPaint(
-          painter: _LeafPainter(color),
-          size: const Size(80, 36),
+    return Transform.rotate(
+      angle: .2,
+      child: Container(
+        width: 28, height: 18,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: const [BoxShadow(blurRadius: 6, color: Colors.black12)],
         ),
       ),
     );
   }
 }
 
-class _LeafPainter extends CustomPainter {
-  final Color color;
-  _LeafPainter(this.color);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rrect = RRect.fromRectAndRadius(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      const Radius.circular(30),
-    );
-    final fill = Paint()..color = color;
-    canvas.drawRRect(rrect, fill);
-    // Simple horizontal vein.
-    final vein = Paint()
-      ..color = Colors.white.withOpacity(.25)
-      ..strokeWidth = 4
-      ..style = PaintingStyle.stroke;
-    canvas.drawLine(
-        const Offset(10, 18), Offset(size.width - 10, 18), vein);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-/// A ribbon bar used across screens for navigation and status. It
-/// receives callbacks for each button so that screens can wire
-/// navigation logic without tightly coupling to the widget.
+/// A compact top navigation bar with clear iconography.
+/// Shows tooltips and, on wide screens, short text labels under icons.
 class RibbonBar extends StatelessWidget {
   const RibbonBar({
     super.key,
@@ -164,177 +89,152 @@ class RibbonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      child: Padding(
+    final width = MediaQuery.of(context).size.width;
+    final bool showLabels = width >= 700;
+    final canPop = Navigator.of(context).canPop();
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+      child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(.85),
-            borderRadius: BorderRadius.circular(Radii.xl),
-            boxShadow: const [
-              BoxShadow(blurRadius: 12, color: Colors.black12, offset: Offset(0, 6)),
-            ],
-          ),
-          child: Row(
-            children: [
-              _RoundIcon(
-                icon: Icons.home_rounded,
-                color: AppColors.orange,
-                onTap: onHome,
-                semantic: 'Acasă',
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _RoundLabel(
-                      label: 'P',
-                      color: AppColors.yellow,
-                      onTap: onXylophone,
-                      semantic: 'Pian/Xilofon',
-                    ),
-                    const SizedBox(width: 10),
-                    _RoundLabel(
-                      label: 'D',
-                      color: AppColors.green,
-                      onTap: onDrums,
-                      semantic: 'Tobe',
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 10),
-              _RoundIcon(
-                icon: Icons.music_note_rounded,
-                color: AppColors.purple,
-                onTap: onSounds,
-                semantic: 'Sunete',
-              ),
-              if (onParents != null) ...[
-                const SizedBox(width: 10),
-                _RoundIcon(
-                  icon: Icons.settings,
-                  color: AppColors.panel,
-                  onTap: onParents!,
-                  semantic: 'Părinți',
-                ),
-              ],
-            ],
-          ),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(.88),
+          borderRadius: BorderRadius.circular(Radii.xl),
+          boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.black12, offset: Offset(0, 6))],
         ),
-      ),
-    );
-  }
-}
-
-class _RoundIcon extends StatelessWidget {
-  const _RoundIcon({
-    required this.icon,
-    required this.color,
-    required this.onTap,
-    required this.semantic,
-  });
-  final IconData icon;
-  final Color color;
-  final VoidCallback onTap;
-  final String semantic;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: semantic,
-      child: Material(
-        color: color,
-        shape: const CircleBorder(),
-        elevation: 4,
-        child: InkWell(
-          customBorder: const CircleBorder(),
-          onTap: onTap,
-          child: const SizedBox(
-            width: 56,
-            height: 56,
-            child: Center(),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _RoundLabel extends StatelessWidget {
-  const _RoundLabel({
-    required this.label,
-    required this.color,
-    required this.onTap,
-    required this.semantic,
-  });
-  final String label;
-  final Color color;
-  final VoidCallback onTap;
-  final String semantic;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: semantic,
-      child: Material(
-        color: color,
-        shape: const CircleBorder(),
-        elevation: 4,
-        child: InkWell(
-          customBorder: const CircleBorder(),
-          onTap: onTap,
-          child: SizedBox(
-            width: 56,
-            height: 56,
-            child: Center(
-              child: Text(
-                label,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+        child: Row(
+          children: [
+            if (canPop)
+              _NavButton(
+                icon: Icons.arrow_back_rounded,
+                label: 'Înapoi',
+                tooltip: 'Înapoi',
+                onTap: () => Navigator.of(context).maybePop(),
+                showLabel: showLabels,
+              ),
+            _NavButton(
+              icon: Icons.home_rounded,
+              label: 'Acasă',
+              tooltip: 'Mergi la ecranul principal',
+              onTap: onHome,
+              showLabel: showLabels,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _NavButton(
+                    icon: Icons.music_note_rounded,
+                    label: 'Xilofon',
+                    tooltip: 'Deschide Xilofon',
+                    onTap: onXylophone,
+                    showLabel: showLabels,
+                  ),
+                  const SizedBox(width: 8),
+                  _NavButton(
+                    icon: Icons.album_rounded,
+                    label: 'Tobe',
+                    tooltip: 'Deschide Tobe',
+                    onTap: onDrums,
+                    showLabel: showLabels,
+                  ),
+                  const SizedBox(width: 8),
+                  _NavButton(
+                    icon: Icons.graphic_eq_rounded,
+                    label: 'Sunete',
+                    tooltip: 'Deschide Sunete',
+                    onTap: onSounds,
+                    showLabel: showLabels,
+                  ),
+                ],
               ),
             ),
-          ),
+            if (onParents != null) ...[
+              const SizedBox(width: 12),
+              _NavButton(
+                icon: Icons.parental_controls_rounded,
+                label: 'Părinți',
+                tooltip: 'Acces părinți (PIN)',
+                onTap: onParents!,
+                showLabel: showLabels,
+              ),
+            ],
+          ],
         ),
       ),
     );
   }
 }
 
-/// Displays a row of five stars representing a progress metric. The
-/// number of filled stars is passed via [filled]. Unfilled stars
-/// are semi‑transparent. Animation scales the star when filled.
+class _NavButton extends StatelessWidget {
+  const _NavButton({
+    required this.icon,
+    required this.label,
+    required this.tooltip,
+    required this.onTap,
+    required this.showLabel,
+  });
+
+  final IconData icon;
+  final String label;
+  final String tooltip;
+  final VoidCallback onTap;
+  final bool showLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget iconWidget = Container(
+      width: 44, height: 44,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(999),
+        boxShadow: const [BoxShadow(blurRadius: 6, color: Colors.black12)],
+      ),
+      child: Icon(icon, color: AppColors.textDark),
+    );
+
+    final content = showLabel
+        ? Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              iconWidget,
+              const SizedBox(height: 4),
+              Text(label, style: Theme.of(context).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w700)),
+            ],
+          )
+        : iconWidget;
+
+    return Tooltip(
+      message: tooltip,
+      waitDuration: const Duration(milliseconds: 400),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+          child: content,
+        ),
+      ),
+    );
+  }
+}
+
+/// Simple star row (kept for backwards compatibility in screens).
 class StarRow extends StatelessWidget {
-  const StarRow({super.key, this.filled = 0});
+  const StarRow({super.key, this.total = 3, this.filled = 0});
+  final int total;
   final int filled;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List<Widget>.generate(5, (i) {
-        final isOn = i < filled;
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(total, (i) {
+        final on = i < filled;
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: AnimatedScale(
-            scale: isOn ? 1.1 : 1.0,
-            duration: const Duration(milliseconds: 120),
-            child: Icon(
-              Icons.grade_rounded,
-              size: 32,
-              color: isOn ? AppColors.yellow : Colors.white.withOpacity(.7),
-              shadows: const [
-                Shadow(blurRadius: 6, color: Colors.black26),
-              ],
-            ),
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 2),
+          child: Icon(on ? Icons.star_rounded : Icons.star_border_rounded, color: on ? Colors.amber : Colors.black26),
         );
       }),
     );
