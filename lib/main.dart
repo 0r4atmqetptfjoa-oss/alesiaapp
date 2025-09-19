@@ -86,7 +86,6 @@ class _MuzicaMagicaAppState extends State<MuzicaMagicaApp> with WidgetsBindingOb
         '/songs': (_) => const SongsScreen(),
         '/content_packs': (_) => const ContentPacksScreen(),
         '/numbers': (_) => NumbersScreen(),
-        '/songs': (_) => const SongsScreen(),
       },
     );
   }

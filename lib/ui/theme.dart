@@ -13,15 +13,14 @@ class AppColors {
   static const bgHill = Color(0xFFD7F1E1);
   static const bgGrass = Color(0xFFC6EDC8);
 
-  /// New unified gradient background combining sky, hill, and grass.
+  /// Optional unified gradient background. Not strictly required
+  /// because ForestBackground paints its own gradient and scenery,
+  /// but this constant keeps backward compatibility with older
+  /// screens that referenced AppColors.bgGradient.
   static const bgGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [
-      bgSky,
-      bgHill,
-      bgGrass,
-    ],
+    colors: [bgSky, bgHill, bgGrass],
   );
 
   // Vibrant rainbow colours used for instruments and buttons.
@@ -47,7 +46,7 @@ class AppColors {
 }
 
 /// Handy constants for spacing and radii. These values can be
-/// fine-tuned to achieve the right rhythm and softness in the UI.
+/// fine‑tuned to achieve the right rhythm and softness in the UI.
 class Gaps {
   static const double xs = 8.0;
   static const double sm = 12.0;
