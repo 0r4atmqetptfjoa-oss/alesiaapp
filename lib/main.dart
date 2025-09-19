@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'i18n/app_localizations.dart';
 import 'ui/theme.dart';
 import 'ui/screens/splash_screen.dart';
 import 'ui/screens/home_screen.dart';
@@ -61,6 +63,13 @@ class _MuzicaMagicaAppState extends State<MuzicaMagicaApp> with WidgetsBindingOb
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(),
       initialRoute: '/splash',
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
       routes: {
         '/splash': (_) => const SplashScreen(),
         '/': (_) => const HomeScreen(),

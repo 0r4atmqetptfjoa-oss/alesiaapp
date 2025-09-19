@@ -1,24 +1,47 @@
-import 'package:just_audio/just_audio.dart';
+import 'package:flutter/services.dart' show rootBundle, ByteData;
+import 'package:soundpool/soundpool.dart';
 
-/// A simple audio manager for playing short sound effects. It uses
-/// a single AudioPlayer instance from the just_audio package. For
-/// multiple simultaneous sounds or very low latency (e.g. piano
-/// notes) a SoundPool could be used instead.
+/// Global singleton for short SFX playback (low latency).
+final AudioManager audioManager = AudioManager._internal();
+
 class AudioManager {
-  final AudioPlayer _player = AudioPlayer();
+  AudioManager._internal();
 
-  /// Plays an audio asset from the bundled assets folder. The path
-  /// should begin with `assets/`, for example
-  /// `assets/audio/instruments/C.wav`.
-  Future<void> play(String assetPath) async {
-    try {
-      await _player.setAsset(assetPath);
-      await _player.play();
-    } catch (e) {
-      // ignore any errors silently in this demo.
+  Soundpool? _pool;
+  final Map<String, int> _cache = {}; // assetPath -> soundId
+
+  Soundpool get _ensurePool {
+    return _pool ??= Soundpool.fromOptions(options: const SoundpoolOptions(streamType: StreamType.music));
+  }
+
+  /// Plays an asset WAV/OGG/MP3. Caches the decoded sound in memory for reuse.
+  /// Example: await audioManager.play('assets/audio/instruments/C.wav');
+  Future<void> play(String assetPath, {double volume = 1.0}) async {
+    final pool = _ensurePool;
+    int? soundId = _cache[assetPath];
+    if (soundId == null) {
+      final ByteData data = await rootBundle.load(assetPath);
+      soundId = await pool.load(data);
+      _cache[assetPath] = soundId;
     }
+    await pool.play(soundId, volume: volume);
+  }
+
+  /// Frees all cached sounds.
+  Future<void> clear() async {
+    if (_pool == null) return;
+    for (final id in _cache.values) {
+      try {
+        await _pool!.release(id);
+      } catch (_) {}
+    }
+    _cache.clear();
+  }
+
+  /// Disposes the underlying pool.
+  Future<void> dispose() async {
+    await clear();
+    await _pool?.release();
+    _pool = null;
   }
 }
-
-/// Global instance of the audio manager.
-final audioManager = AudioManager();
