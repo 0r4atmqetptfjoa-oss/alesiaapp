@@ -1,239 +1,310 @@
 {
   "animals": [
     {
-      "name": "Gemini Generated Image 1Dgvm1Dgvm1Dgvm1",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_1dgvm1dgvm1dgvm1.png"
+      "name": "Anghilă",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/anghila.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image 1Kxzqa1Kxzqa1Kxz",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_1kxzqa1kxzqa1kxz.png"
+      "name": "Arici de mare",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/aricidemare.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image 1Kxzqa1Kxzqa1Kxz (1)",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_1kxzqa1kxzqa1kxz1.png"
+      "name": "Balenă",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/balena.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image 1Kxzqa1Kxzqa1Kxz (2)",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_1kxzqa1kxzqa1kxz2.png"
+      "name": "Broască țestoasă",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/broascatestoasa.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image 236P5D236P5D236P",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_236p5d236p5d236p.png"
+      "name": "Calamar",
+      "category": "Animale marine",
+      "image": "assets/images/animals/farm/calamar.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image 2Lsz8V2Lsz8V2Lsz",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_2l_z8v2l_z8v2l_z.png"
+      "name": "Căluț de mare",
+      "category": "Animale marine",
+      "image": "assets/images/animals/farm/calutdemare.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image 3287693287693287",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_3287693287693287.png"
+      "name": "Caracatiță",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/caracatita.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image 6M5L3R6M5L3R6M5L",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_6m5l3r6m5l3r6m5l.png"
+      "name": "Crab",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/crab.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image 7Fygql7Fygql7Fyg",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_7fygql7fygql7fyg.png"
+      "name": "Crevete",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/crevete.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image 818G0N818G0N818G",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_818g0n818g0n818g.png"
+      "name": "Delfin",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/delfin.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Bghdjabghdjabghd",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_bghdjabghdjabghd.png"
+      "name": "Focă",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/foca.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Bgwdxxbgwdxxbgwd",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_bgwdxxbgwdxxbgwd.png"
+      "name": "Lamantin",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/lamantinul.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Bkcovabkcovabkco",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_bkcovabkcovabkco.png"
+      "name": "Meduză",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/meduza.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Bsq9Hrbsq9Hrbsq9",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_b_q9hrb_q9hrb_q9.png"
+      "name": "Orcă",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/oraca.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Bsq9Hrbsq9Hrbsq9 (1)",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_b_q9hrb_q9hrb_q91.png"
+      "name": "Pește-spadă",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/pestespada.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Bsq9Hrbsq9Hrbsq9 (2)",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_b_q9hrb_q9hrb_q92.png"
+      "name": "Rechin",
+      "category": "Animale marine",
+      "image": "assets/images/animals/marine/rechin.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Gp17Dkgp17Dkgp17",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_gp17dkgp17dkgp17.png"
+      "name": "Câine",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/caine.png",
+      "audio": "assets/audio/animals/caine.mp3"
     },
     {
-      "name": "Gemini Generated Image Gtpwyagtpwyagtpw",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_gtpwyagtpwyagtpw.png"
+      "name": "Cal",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/cal.png",
+      "audio": "assets/audio/animals/cal.mp3"
     },
     {
-      "name": "Gemini Generated Image Hvvjcvhvvjcvhvvj",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_hvvjcvhvvjcvhvvj.png"
+      "name": "Capră",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/capra.png",
+      "audio": "assets/audio/animals/capra.mp3"
     },
     {
-      "name": "Gemini Generated Image Idl21Pidl21Pidl2",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_idl21pidl21pidl2.png"
+      "name": "Curcan",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/curcan.png",
+      "audio": "assets/audio/animals/curcan.mp3"
     },
     {
-      "name": "Gemini Generated Image Johystjohystjohy",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_johy_tjohy_tjohy.png"
+      "name": "Găină",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/gaina.png",
+      "audio": "assets/audio/animals/gaina.mp3"
     },
     {
-      "name": "Gemini Generated Image Jxnqg8Jxnqg8Jxnq",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_jxnqg8jxnqg8jxnq.png"
+      "name": "Gâscă",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/gasca.png",
+      "audio": "assets/audio/animals/gasca.mp3"
     },
     {
-      "name": "Gemini Generated Image Jxuipujxuipujxui",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_jxuipujxuipujxui.png"
+      "name": "Măgar",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/magar.png",
+      "audio": "assets/audio/animals/magar.mp3"
     },
     {
-      "name": "Gemini Generated Image Khc91Kkhc91Kkhc9",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_khc91kkhc91kkhc9.png"
+      "name": "Oaie",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/oaie.png",
+      "audio": "assets/audio/animals/oaie.mp3"
     },
     {
-      "name": "Gemini Generated Image Kymnuekymnuekymn",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_kymnuekymnuekymn.png"
+      "name": "Pisică",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/pisica.png",
+      "audio": "assets/audio/animals/pisica.mp3"
     },
     {
-      "name": "Gemini Generated Image Lfmxcqlfmxcqlfmx",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_lfmxcqlfmxcqlfmx.png"
+      "name": "Porc",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/porc.png",
+      "audio": "assets/audio/animals/porc.mp3"
     },
     {
-      "name": "Gemini Generated Image Ms2R4Jms2R4Jms2R",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_m_2r4jm_2r4jm_2r.png"
+      "name": "Rață",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/rata.png",
+      "audio": "assets/audio/animals/rata.mp3"
     },
     {
-      "name": "Gemini Generated Image Mwbithmwbithmwbi",
-      "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_mwbithmwbithmwbi.png"
+      "name": "Vacă",
+      "category": "Animale de fermă",
+      "image": "assets/images/animals/farm/vaca.png",
+      "audio": "assets/audio/animals/vaca.mp3"
     },
     {
-      "name": "Gemini Generated Image O975R0O975R0O975",
+      "name": "Elefant",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_o975r0o975r0o975.png"
+      "image": "assets/images/animals/wild/elefant.png",
+      "audio": "assets/audio/animals/elefant.mp3"
     },
     {
-      "name": "Gemini Generated Image P6Ehdp6Ehdp6Ehdp",
+      "name": "Girafă",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_p6ehdp6ehdp6ehdp.png"
+      "image": "assets/images/animals/wild/girafa.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Pocpltpocpltpocp",
+      "name": "Gorilă",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_pocpltpocpltpocp.png"
+      "image": "assets/images/animals/wild/gorila.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Qu87Gyqu87Gyqu87",
+      "name": "Hiena",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_qu87gyqu87gyqu87.png"
+      "image": "assets/images/animals/wild/hiena.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image S52Kovs52Kovs52K",
+      "name": "Koala",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image__52kov_52kov_52k.png"
+      "image": "assets/images/animals/wild/koala.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image S53W5Es53W5Es53W",
+      "name": "Leopard",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image__53w5e_53w5e_53w.png"
+      "image": "assets/images/animals/wild/leopard.png",
+      "audio": "assets/audio/animals/leopard.mp3"
     },
     {
-      "name": "Gemini Generated Image S8Gzo5S8Gzo5S8Gz",
+      "name": "Leu",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image__8gzo5_8gzo5_8gz.png"
+      "image": "assets/images/animals/wild/leu.png",
+      "audio": "assets/audio/animals/leu.mp3"
     },
     {
-      "name": "Gemini Generated Image Uc9Roluc9Roluc9R",
+      "name": "Porc mistreț",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_uc9roluc9roluc9r.png"
+      "image": "assets/images/animals/farm/porcmistret.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Vsz9I8Vsz9I8Vsz9",
+      "name": "Rinocer",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_v_z9i8v_z9i8v_z9.png"
+      "image": "assets/images/animals/wild/rinocer.png",
+      "audio": "assets/audio/animals/rinocer.mp3"
     },
     {
-      "name": "Gemini Generated Image Wkydwbwkydwbwkyd",
+      "name": "Tigru",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_wkydwbwkydwbwkyd.png"
+      "image": "assets/images/animals/wild/tigru.png",
+      "audio": "assets/audio/animals/tigru.mp3"
     },
     {
-      "name": "Gemini Generated Image Y64048Y64048Y640",
+      "name": "Urs",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_y64048y64048y640.png"
+      "image": "assets/images/animals/wild/ursc.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Y9Mqwwy9Mqwwy9Mq",
+      "name": "Vulpe",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_y9mqwwy9mqwwy9mq.png"
+      "image": "assets/images/animals/wild/vulpe.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Yyc8W4Yyc8W4Yyc8",
+      "name": "Zebră",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_yyc8w4yyc8w4yyc8.png"
+      "image": "assets/images/animals/wild/zebra.png",
+      "audio": null
     },
     {
-      "name": "Gemini Generated Image Yyc8W4Yyc8W4Yyc8 (1)",
+      "name": "Bufniță",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_yyc8w4yyc8w4yyc81.png"
+      "image": "assets/images/animals/wild/bufnita.png",
+      "audio": "assets/audio/animals/bufnita.mp3"
     },
     {
-      "name": "Gemini Generated Image Yyc8W4Yyc8W4Yyc8 (2)",
+      "name": "Cioara",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_yyc8w4yyc8w4yyc82.png"
+      "image": "assets/images/animals/wild/cioara.png",
+      "audio": "assets/audio/animals/cioara.mp3"
     },
     {
-      "name": "Gemini Generated Image Z55Wykz55Wykz55W",
+      "name": "Ciocanitoare",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_z55wykz55wykz55w.png"
+      "image": "assets/images/animals/wild/ciocanitoare.png",
+      "audio": "assets/audio/animals/ciocanitoare.mp3"
     },
     {
-      "name": "Gemini Generated Image Z8Ht4Mz8Ht4Mz8Ht",
+      "name": "Corb",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_z8ht4mz8ht4mz8ht.png"
+      "image": "assets/images/animals/wild/corb.png",
+      "audio": "assets/audio/animals/corb.mp3"
     },
     {
-      "name": "Gemini Generated Image Zgpud9Zgpud9Zgpu",
+      "name": "Papagal",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_zgpud9zgpud9zgpu.png"
+      "image": "assets/images/animals/wild/papagal.png",
+      "audio": "assets/audio/animals/papagal.mp3"
     },
     {
-      "name": "Gemini Generated Image Zgpud9Zgpud9Zgpu (1)",
+      "name": "Păun",
       "category": "Animale sălbatice",
-      "image": "assets/images/animals/wild/gemini_generated_image_zgpud9zgpud9zgpu1.png"
+      "image": "assets/images/animals/wild/paun.png",
+      "audio": "assets/audio/animals/paun.mp3"
+    },
+    {
+      "name": "Pescarus",
+      "category": "Animale sălbatice",
+      "image": "assets/images/animals/wild/pescarus.png",
+      "audio": "assets/audio/animals/pescarus.mp3"
+    },
+    {
+      "name": "Porumbel",
+      "category": "Animale sălbatice",
+      "image": "assets/images/animals/wild/porumbel.png",
+      "audio": "assets/audio/animals/porumbel.mp3"
+    },
+    {
+      "name": "Randunica",
+      "category": "Animale sălbatice",
+      "image": "assets/images/animals/wild/randunica.png",
+      "audio": "assets/audio/animals/randunica.mp3"
+    },
+    {
+      "name": "Vultur",
+      "category": "Animale sălbatice",
+      "image": "assets/images/animals/wild/vultur.png",
+      "audio": null
     }
   ]
 }
