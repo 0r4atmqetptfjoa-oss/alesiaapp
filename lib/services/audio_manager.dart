@@ -24,30 +24,23 @@ class AudioManager {
       _cache[assetPath] = soundId;
     }
     final streamId = await pool.play(soundId);
+    // Adjust volume if needed (some platforms may ignore this on web).
     if (volume != 1.0) {
       try {
         await pool.setVolume(streamId: streamId, volume: volume.clamp(0.0, 1.0));
-      } catch (_) {
-        // Older platforms may not support setVolume; ignore gracefully.
-      }
-    }
-  }
-
-  /// Frees all cached sounds.
-  Future<void> clear() async {
-    if (_pool == null) return;
-    for (final id in _cache.values) {
-      try {
-        await _pool!.unload(id);
       } catch (_) {}
     }
-    _cache.clear();
   }
 
-  /// Disposes the underlying pool.
-  Future<void> dispose() async {
-    await clear();
-    await _pool?.release();
+  /// Frees all cached sounds and releases the pool.
+  Future<void> clear() async {
+    if (_pool == null) return;
+    _cache.clear();
+    try {
+      await _pool!.release(); // Releases the whole pool (Soundpool 2.4.x API)
+    } catch (_) {}
     _pool = null;
   }
+
+  Future<void> dispose() async => clear();
 }
