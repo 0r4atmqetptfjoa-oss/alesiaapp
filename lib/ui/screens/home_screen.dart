@@ -66,6 +66,11 @@ class HomeScreen extends StatelessWidget {
                     label: 'Povești',
                     onTap: () => _navigateWithAd('/stories'),
                   ),
+                  _BigButton(
+                    color: AppColors.purple,
+                    label: 'Cântece',
+                    onTap: () => _navigateWithAd('/songs'),
+                  ),
                 ],
               ),
             ),

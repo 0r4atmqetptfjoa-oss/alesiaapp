@@ -118,7 +118,8 @@ class _ParentsScreenState extends State<ParentsScreen> {
           title: const Text('Pachete de conținut'),
           subtitle: const Text('Vizualizează și gestionează pack-urile instalate'),
           onTap: () {
-            // TODO: navigate to content pack manager
+            // Navigate to the content packs manager screen when tapped.
+            Navigator.pushNamed(context, '/content_packs');
           },
         ),
         const Divider(),
