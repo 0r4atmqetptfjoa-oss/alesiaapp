@@ -1,87 +1,60 @@
 import 'package:flutter/material.dart';
-import '../theme.dart';
 
+/// Simplu background cu gradient pentru ecrane (înlocuiește dacă ai o versiune mai bogată).
 class ForestBackground extends StatelessWidget {
-  const ForestBackground({super.key, required this.child});
   final Widget child;
+  const ForestBackground({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(gradient: AppColors.bgGradient),
-      child: Stack(
-        children: [
-          Positioned(left: -60, bottom: -40, right: -60, height: 220,
-            child: DecoratedBox(decoration: BoxDecoration(color: AppColors.bgHill, borderRadius: BorderRadius.circular(160)))),
-          Positioned(left: -40, bottom: -60, right: -40, height: 160,
-            child: DecoratedBox(decoration: BoxDecoration(color: AppColors.bgGrass, borderRadius: BorderRadius.circular(140)))),
-          SafeArea(child: child),
-        ],
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF77C9F9), Color(0xFF2D8ECE)],
+        ),
       ),
+      child: SafeArea(child: child),
     );
   }
 }
 
+/// Bara de sus cu butoanele de navigare.
 class RibbonBar extends StatelessWidget {
+  final VoidCallback? onHome, onXylophone, onDrums, onSounds, onParents;
   const RibbonBar({
     super.key,
-    required this.onHome,
-    required this.onXylophone,
-    required this.onDrums,
-    required this.onSounds,
+    this.onHome,
+    this.onXylophone,
+    this.onDrums,
+    this.onSounds,
     this.onParents,
   });
 
-  final VoidCallback onHome;
-  final VoidCallback onXylophone;
-  final VoidCallback onDrums;
-  final VoidCallback onSounds;
-  final VoidCallback? onParents;
-
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final bool showLabels = width >= 700;
-    final canPop = Navigator.of(context).canPop();
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(.88),
-          borderRadius: BorderRadius.circular(Radii.xl),
-          boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.black12, offset: Offset(0, 6))],
-        ),
+    // ✅ Material asigură contextul pentru toate InkWell-urile (fără el apare
+    // 'No Material widget found' când se face tap).
+    return Material(
+      color: Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           children: [
-            if (canPop)
-              _NavButton(icon: Icons.arrow_back_rounded, label: 'Înapoi', tooltip: 'Înapoi',
-                onTap: () => Navigator.of(context).maybePop(), showLabel: showLabels),
-            _NavButton(icon: Icons.home_rounded, label: 'Acasă', tooltip: 'Mergi la ecranul principal',
-              onTap: onHome, showLabel: showLabels),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _NavButton(icon: Icons.music_note_rounded, label: 'Xilofon', tooltip: 'Deschide Xilofon',
-                    onTap: onXylophone, showLabel: showLabels),
-                  const SizedBox(width: 8),
-                  _NavButton(icon: Icons.album_rounded, label: 'Tobe', tooltip: 'Deschide Tobe',
-                    onTap: onDrums, showLabel: showLabels),
-                  const SizedBox(width: 8),
-                  _NavButton(icon: Icons.graphic_eq_rounded, label: 'Sunete', tooltip: 'Deschide Sunete',
-                    onTap: onSounds, showLabel: showLabels),
-                ],
-              ),
+            _NavButton(icon: Icons.home_rounded, tooltip: 'Acasă', onTap: onHome),
+            const SizedBox(width: 8),
+            _NavButton(icon: Icons.piano_rounded, tooltip: 'Xilofon', onTap: onXylophone),
+            const SizedBox(width: 8),
+            _NavButton(icon: Icons.music_note_rounded, tooltip: 'Tobe', onTap: onDrums),
+            const SizedBox(width: 8),
+            _NavButton(icon: Icons.volume_up_rounded, tooltip: 'Sunete', onTap: onSounds),
+            const Spacer(),
+            _NavButton(
+              icon: Icons.lock_outline, // fallback sigur (unele canale nu au parental_controls_rounded)
+              tooltip: 'Părinți',
+              onTap: onParents,
             ),
-            if (onParents != null) ...[
-              const SizedBox(width: 12),
-              // Replace unavailable icon with a widely available one:
-              _NavButton(icon: Icons.family_restroom, label: 'Părinți', tooltip: 'Acces părinți (PIN)',
-                onTap: onParents!, showLabel: showLabels),
-            ],
           ],
         ),
       ),
@@ -90,65 +63,58 @@ class RibbonBar extends StatelessWidget {
 }
 
 class _NavButton extends StatelessWidget {
-  const _NavButton({
-    required this.icon,
-    required this.label,
-    required this.tooltip,
-    required this.onTap,
-    required this.showLabel,
-  });
-
   final IconData icon;
-  final String label;
   final String tooltip;
-  final VoidCallback onTap;
-  final bool showLabel;
+  final VoidCallback? onTap;
+  const _NavButton({required this.icon, required this.tooltip, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    final Widget iconWidget = Container(
-      width: 44, height: 44,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(999),
-        boxShadow: const [BoxShadow(blurRadius: 6, color: Colors.black12)],
-      ),
-      child: Icon(icon, color: AppColors.textDark),
-    );
-
-    final content = showLabel
-        ? Column(mainAxisSize: MainAxisSize.min, children: [
-            iconWidget,
-            const SizedBox(height: 4),
-            Text(label, style: Theme.of(context).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w700)),
-          ])
-        : iconWidget;
-
-    return Tooltip(
-      message: tooltip,
-      waitDuration: const Duration(milliseconds: 400),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4), child: content),
+    // ✅ Încă un strat Material pentru efectele Ink (splash/highlight)
+    return Material(
+      color: Colors.transparent,
+      child: Tooltip(
+        message: tooltip,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(999),
+          child: Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withOpacity(0.14),
+              border: Border.all(color: Colors.white.withOpacity(0.25)),
+            ),
+            alignment: Alignment.center,
+            child: Icon(icon, size: 22, color: Colors.white),
+          ),
+        ),
       ),
     );
   }
 }
 
+/// Un rând de steluțe pentru progres (dacă e folosit în jocuri).
 class StarRow extends StatelessWidget {
-  const StarRow({super.key, this.total = 3, this.filled = 0});
-  final int total;
-  final int filled;
+  final int value;
+  final int max;
+  const StarRow({super.key, this.value = 0, this.max = 3});
+
   @override
   Widget build(BuildContext context) {
+    final v = value.clamp(0, max);
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: List.generate(total, (i) {
-        final on = i < filled;
+      children: List.generate(max, (i) {
+        final filled = i < v;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 2),
-          child: Icon(on ? Icons.star_rounded : Icons.star_border_rounded, color: on ? Colors.amber : Colors.black26),
+          child: Icon(
+            filled ? Icons.star_rounded : Icons.star_border_rounded,
+            color: filled ? Colors.amber : Colors.white70,
+            size: 20,
+          ),
         );
       }),
     );
