@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 import '../widgets/common_widgets.dart';
-import '../widgets/animated_hover_scale.dart';
+import '../widgets/kid_card.dart';
+import '../widgets/adaptive.dart';
 import '../../services/audio_manager.dart';
 
 class Animal {
   final String name;
   final String imageAsset; // e.g. assets/images/animals/cow.png
-  final String audioAsset; // e.g. assets/audio/instruments/C.wav (kept simple for demo)
+  final String audioAsset; // e.g. assets/audio/instruments/C.wav
   final String category;
   const Animal(this.name, this.imageAsset, this.audioAsset, this.category);
 }
 
-// Demo list with two categories. Images are provided in the zip.
+// Demo list with two categories.
 final List<Animal> animals = [
   Animal('Vaca', 'assets/images/animals/cow.png', 'assets/audio/instruments/C.wav', 'Ferma'),
   Animal('Oaie', 'assets/images/animals/sheep.png', 'assets/audio/instruments/D.wav', 'Ferma'),
@@ -98,61 +99,19 @@ class _AnimalsScreenState extends State<AnimalsScreen> with SingleTickerProvider
       padding: const EdgeInsets.all(16),
       child: GridView.builder(
         itemCount: items.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: adaptiveCrossAxisCount(context, minTileWidth: 260),
           crossAxisSpacing: 14,
           mainAxisSpacing: 14,
           childAspectRatio: 4 / 3,
         ),
         itemBuilder: (context, index) {
           final animal = items[index];
-          return AnimatedHoverScale(
+          return KidCard(
+            title: animal.name,
+            imageAsset: animal.imageAsset,
+            badgeText: '#${index + 1}',
             onTap: () async => await audioManager.play(animal.audioAsset),
-            child: Material(
-              color: Colors.white,
-              elevation: 6,
-              borderRadius: BorderRadius.circular(Radii.lg),
-              clipBehavior: Clip.antiAlias,
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: Image.asset(
-                      animal.imageAsset,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stack) => Center(
-                        child: Icon(Icons.pets_rounded, size: 64, color: AppColors.leaf2),
-                      ),
-                    ),
-                  ),
-                  // Bottom label strip
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(.85),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(0),
-                          topRight: Radius.circular(0),
-                          bottomLeft: Radius.circular(16),
-                          bottomRight: Radius.circular(16),
-                        ),
-                      ),
-                      child: Text(
-                        animal.name,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.textDark,
-                            ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           );
         },
       ),
