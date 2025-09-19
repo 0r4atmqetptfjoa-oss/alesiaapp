@@ -1,8 +1,8 @@
 class AnimalItem {
   final String name;
-  final String category;
-  final String image;
-  final String? audio;
+  final String category; // Animale de fermă / Animale sălbatice / Animale marine
+  final String image;    // asset path
+  final String? audio;   // optional asset path
   const AnimalItem({required this.name, required this.category, required this.image, this.audio});
 
   factory AnimalItem.fromJson(Map<String, dynamic> j) =>

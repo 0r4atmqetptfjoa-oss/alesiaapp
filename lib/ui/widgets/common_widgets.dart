@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Simplu background cu gradient pentru ecrane (înlocuiește dacă ai o versiune mai bogată).
 class ForestBackground extends StatelessWidget {
   final Widget child;
   const ForestBackground({super.key, required this.child});
@@ -20,22 +19,12 @@ class ForestBackground extends StatelessWidget {
   }
 }
 
-/// Bara de sus cu butoanele de navigare.
 class RibbonBar extends StatelessWidget {
   final VoidCallback? onHome, onXylophone, onDrums, onSounds, onParents;
-  const RibbonBar({
-    super.key,
-    this.onHome,
-    this.onXylophone,
-    this.onDrums,
-    this.onSounds,
-    this.onParents,
-  });
+  const RibbonBar({super.key, this.onHome, this.onXylophone, this.onDrums, this.onSounds, this.onParents});
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Material asigură contextul pentru toate InkWell-urile (fără el apare
-    // 'No Material widget found' când se face tap).
     return Material(
       color: Colors.transparent,
       child: Padding(
@@ -50,11 +39,7 @@ class RibbonBar extends StatelessWidget {
             const SizedBox(width: 8),
             _NavButton(icon: Icons.volume_up_rounded, tooltip: 'Sunete', onTap: onSounds),
             const Spacer(),
-            _NavButton(
-              icon: Icons.lock_outline, // fallback sigur (unele canale nu au parental_controls_rounded)
-              tooltip: 'Părinți',
-              onTap: onParents,
-            ),
+            _NavButton(icon: Icons.lock_outline, tooltip: 'Părinți', onTap: onParents),
           ],
         ),
       ),
@@ -70,7 +55,6 @@ class _NavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Încă un strat Material pentru efectele Ink (splash/highlight)
     return Material(
       color: Colors.transparent,
       child: Tooltip(
@@ -79,8 +63,7 @@ class _NavButton extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(999),
           child: Container(
-            width: 44,
-            height: 44,
+            width: 44, height: 44,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white.withOpacity(0.14),
@@ -91,32 +74,6 @@ class _NavButton extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-/// Un rând de steluțe pentru progres (dacă e folosit în jocuri).
-class StarRow extends StatelessWidget {
-  final int value;
-  final int max;
-  const StarRow({super.key, this.value = 0, this.max = 3});
-
-  @override
-  Widget build(BuildContext context) {
-    final v = value.clamp(0, max);
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(max, (i) {
-        final filled = i < v;
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 2),
-          child: Icon(
-            filled ? Icons.star_rounded : Icons.star_border_rounded,
-            color: filled ? Colors.amber : Colors.white70,
-            size: 20,
-          ),
-        );
-      }),
     );
   }
 }

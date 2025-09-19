@@ -1,8 +1,0 @@
-flutter:
-  uses-material-design: true
-  assets:
-    - assets/content/animals.json
-    - assets/images/animals/farm/
-    - assets/images/animals/wild/
-    - assets/images/animals/marine/
-    - assets/audio/animals/

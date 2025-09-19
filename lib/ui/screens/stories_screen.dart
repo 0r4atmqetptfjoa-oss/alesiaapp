@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../widgets/common_widgets.dart';
 import '../widgets/fancy_tile.dart';
 
-class SongsScreen extends StatelessWidget {
-  const SongsScreen({super.key});
+class StoriesScreen extends StatelessWidget {
+  const StoriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,9 @@ class SongsScreen extends StatelessWidget {
               const SizedBox(height: 4),
               const TabBar(
                 tabs: [
-                  Tab(text: 'Karaoke'),
-                  Tab(text: 'Leagăn'),
-                  Tab(text: 'Numărători'),
+                  Tab(text: 'Basme clasice'),
+                  Tab(text: 'Fabule'),
+                  Tab(text: 'Povești cu animale'),
                 ],
               ),
               Expanded(
@@ -51,9 +51,9 @@ class SongsScreen extends StatelessWidget {
     return GridView.count(
       crossAxisCount: 3, crossAxisSpacing: 12, mainAxisSpacing: 12, childAspectRatio: 1.1,
       children: const [
-        FancyTile(title: 'Cântec demo 1', subtitle: 'Tap pentru versuri'),
-        FancyTile(title: 'Cântec demo 2'),
-        FancyTile(title: 'Cântec demo 3'),
+        FancyTile(title: 'Scufița Roșie'),
+        FancyTile(title: 'Alba ca Zăpada'),
+        FancyTile(title: 'Prâslea cel voinic'),
       ],
     );
   }
